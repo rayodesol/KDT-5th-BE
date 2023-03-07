@@ -1,0 +1,10 @@
+{
+  // 어떤 언어에 설정할지
+  "[javascript]": {
+    // 저장할 때(ctrl + s 로) 포맷팅하기
+    "editor.formatOnSave": true,
+
+    // 포맷팅은 이 룰에 따르기
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
