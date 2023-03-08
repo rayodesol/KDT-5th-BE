@@ -12,7 +12,7 @@ app.use(cors()); // 필요한 모듈 넣는 방법 - use()
 
 // 요청은 req 로, 응답 받는건 res 로
 app.use('/', (req, res) => {
-  const str = '안녕하세요. 여기는 백엔드 입니다!';
+  const str = 'Hello, Here is backend! 한글도 보낸다!';
   const json = JSON.stringify(str); // JSON 형태로 만들기
   res.send(json);
 }); // /는 주소값을 의미
