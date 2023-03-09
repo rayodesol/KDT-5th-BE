@@ -8,5 +8,8 @@ module.exports = {
 
     // console.log 쓰면 밑줄 뜨는것을 막음
     'no-console': 'off',
+
+    // ++ 연산자 사용 가능
+    'no-plusplus:': 'off',
   },
 };

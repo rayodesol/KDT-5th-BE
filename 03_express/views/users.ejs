@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EJS</title>
+
+  <!-- / 가 views 까지를 의미 -->
+
+  <!-- static 을 하면 상대경로 쓰지 말아야 -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/main.js"></script>
+</head>
+
+<!-- USER_ARR, userCounts 값 받아져 있는 상태 -->
+
+<body>
+  <h1>Hello, EJS world!</h1>
+  <h1>회원 목록</h1>
+  <h2>총 회원 수 <%= userCounts %></h2>
+  <ul>
+    <!-- 무조건 1줄 단위로 <% %> 작성해야!! -->
+    <% if (userCounts > 0) { %>
+    <% for (let i = 0; i < userCounts; i++) { %>
+    <li>
+      <p>ID : <%= USER_ARR[i].id %></p>
+      <p>NAME : <%= USER_ARR[i].name %></p>
+      <p>EMAIL : <%= USER_ARR[i].email %></p>
+    </li>
+    <% } %>
+    <% } else { %>
+    <li>회원 정보가 없습니다!</li>
+    <% } %>
+  </ul>
+  <img src="/images/dog.jpg" alt="재롱이">
+</body>
+
+</html>

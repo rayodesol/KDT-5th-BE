@@ -6,5 +6,11 @@
 
     // 포맷팅은 이 룰에 따르기
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "j69.ejs-beautify"
+  },
+  "emmet.includeLanguages": {
+    "ejs": "html"
   }
 }
