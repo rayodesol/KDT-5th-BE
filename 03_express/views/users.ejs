@@ -15,7 +15,7 @@
   <script src="/js/main.js"></script>
 </head>
 
-<!-- USER_ARR, userCounts 값 받아져 있는 상태 -->
+<!-- USER, userCounts 값 받아져 있는 상태 -->
 
 <body>
   <h1>Hello, EJS world!</h1>
@@ -26,16 +26,67 @@
     <% if (userCounts > 0) { %>
     <% for (let i = 0; i < userCounts; i++) { %>
     <li>
-      <p>ID : <%= USER_ARR[i].id %></p>
-      <p>NAME : <%= USER_ARR[i].name %></p>
-      <p>EMAIL : <%= USER_ARR[i].email %></p>
+      <p>ID : <%= USER[i].id %></p>
+      <p>NAME : <%= USER[i].name %></p>
+      <p>EMAIL : <%= USER[i].email %></p>
+
+      <!-- javasript:void(0) ; a 태그 기본 기능 안하게 됨 -->
+      <a href="javasript:void(0)" onclick="deleteUser('<%= USER[i].id %>')">삭제</a>
     </li>
     <% } %>
     <% } else { %>
     <li>회원 정보가 없습니다!</li>
     <% } %>
   </ul>
+
+  <form action="/users/add" method="POST">
+    <div>
+      <label>아이디</label>
+      <!-- name 이 객체의 키 값으로, 중요!! -->
+      <input type="text" name="id" />
+    </div>
+    <div>
+      <label>이름</label>
+      <input type="text" name="name" />
+    </div>
+    <div>
+      <label>이메일</label>
+      <input type="email" name="email" />
+    </div>
+    <button type="submit">제출</button>
+  </form>
+
   <img src="/images/dog.jpg" alt="재롱이">
+  <script>
+    // async, await 로
+    async function deleteUser(id) {
+      const response = await fetch(`http://localhost:4000/users/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+        }
+      });
+
+      if (response.status === 200) return location.reload();
+
+      console.log(response);
+    }
+
+    // function deleteUser(id) {
+    //   // 첫번째 인자로 보낼 주소(http:// 까지 써야)
+    //   fetch(`http://localhost:4000/users/delete/${id}`, {
+    //     method: 'DELETE',
+    //     headers: {
+    //       'Content-type': 'application/json',
+    //     }
+    //   }).then((response) => {
+    //     console.log(response);
+    //     location.reload(); // 현재 페이지를 새로고침 해줌.
+    //   }).catch((err) => {
+    //     console.log(err);
+    //   })
+    // }
+  </script>
 </body>
 
 </html>

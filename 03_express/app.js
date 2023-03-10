@@ -1,11 +1,16 @@
 // @ts-check
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express(); // express 실행시켜 담기
 // const userRouter = express.Router();
 const PORT = 4000; // 자주 반복되는 숫자값을 대체할 때 대문자로 변수명 사용
 
+// 따로 선언한 라우터들 여기에 적기!
+const mainRouter = require('./routes/index');
+// const mainRouter = require('./routes'); 로 해도 작동됨. index 생략 가능.
 const userRouter = require('./routes/users');
+const postRouter = require('./routes/posts');
 
 // const USER = {
 //   // 숫자를 아이디로 사용할 것임.
@@ -36,6 +41,10 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
+// app.use('/', mainRouter); app.use('/users', userRouter); 보다 위에 적어야!
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // CSS 적용하기 - static 사용
 // app.use(express.static(__dirname + 'views'));
 // /css 요청 들어와야만
@@ -44,9 +53,14 @@ app.use(express.static('public'));
 // JS 적용하기
 // app.use('/js', express.static('js'));
 
+// localhost:4000 일때 작동
+app.use('/', mainRouter);
+
 // 미들웨어 설정 시 .use()
 // '/users' 주소로 들어오면 app 이 아닌 userRouter 가 처리함
+// localhost:4000/users 일때 작동
 app.use('/users', userRouter);
+app.use('/posts', postRouter); // /posts 주소로 들어오면 라우터 처리
 
 // http://localhost:4000/ 로 접속하면 이게 뜸
 app.get('/', (req, res) => {
@@ -128,6 +142,15 @@ app.get('/', (req, res) => {
 //   const userCounts = USER_ARR.length;
 //   res.render('index', { USER_ARR, userCounts });
 // });
+
+// throw 가 떨어질 수 있는 가장 마지막 단계에 에러 처리 코드 추가
+// use() 는 get, post 등 모든 방식 받으므로 use() 로 작성
+// 어디에서 에러가 발생하든 이 코드가 잡아줌
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(err.statusCode);
+  res.send(err.message + `<br /><a href="/">홈으로</a>`);
+});
 
 // 서버 실행
 app.listen(PORT, () => {
